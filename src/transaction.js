@@ -4,9 +4,7 @@ function Transaction(transactionArray) {
 
 
   if (transactionArray) {
-
     this.transactionArray = JSON.parse(transactionArray);
-
   } else {
 
     this.transactionArray = [];
@@ -99,7 +97,15 @@ Transaction.prototype.getTransactionTypeTotal = function(month, year)
 }
 
 Transaction.prototype.putNewTransaction = function(name, value, type, note) {
+  var d = new Date();
+  var day = 1;
   this.transactionArray.push({name:name, value:value,type:type, note:note, date:new Date()});
+  // this.transactionArray.push({name:name, value:value,type:type, note:note, date:(d.setFullYear(2016, 0, 23))});
+  // this.transactionArray.push({name:name, value:value,type:type, note:note, date:(d.setFullYear(2016, 1, day))});
+  // this.transactionArray.push({name:name, value:value,type:type, note:note, date:(d.setFullYear(2016, 2, day))});
+  // this.transactionArray.push({name:name, value:value,type:type, note:note, date:(d.setFullYear(2016, 3, day))});
+  // this.transactionArray.push({name:name, value:value,type:type, note:note, date:(d.setFullYear(2016, , day))});
+
 }
 Transaction.prototype.getTransactionsLength = function()
 {

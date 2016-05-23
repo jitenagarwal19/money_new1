@@ -49,7 +49,7 @@ module.exports = React.createClass({
 
   getBackgroundColorBasedOnKey:function(key) {
     var backColor;
-    console.log("key for bgg " + key);
+    
 
     if (key % 2) {
       backColor = "floralwhite"
@@ -62,7 +62,7 @@ module.exports = React.createClass({
   },
   shouldShowDelete:function() {
     if (this.props.deleteButtonPressed) {
-      return (<TouchableHighlight onPress={() => this.props.deleteButtonPressed.deleteThisTransaction(this.props.transactionItem)} underlayColor = {"white"}>
+      return (<TouchableHighlight onPress={() => this.props.deleteButtonPressed.deleteThisTransaction(this.props.transactionItem)} underlayColor = {"orangered"}>
       <Image
         style={styles.deleteButton}
         source={closeImage}
@@ -81,7 +81,7 @@ var styles = StyleSheet.create({
     alignItems:"stretch",
     height:55,
     flexWrap:"nowrap",
-  
+
 
   },
   leftView: {

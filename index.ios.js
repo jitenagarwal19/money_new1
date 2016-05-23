@@ -138,7 +138,7 @@ var MoneyNavigator = React.createClass({
         },
 
         render:function() {
-          this.shouldUpdateStateBool = false;
+
           return <View style = {styles.container}>
             {this.renderSaveView()}
             {this.renderExtraButtons()}
@@ -219,7 +219,7 @@ var MoneyNavigator = React.createClass({
             this.that = money1;
           },
           deleteThisTransaction:function(transactionItem) {
-            console.log("printing from the good function " + transactionItem.name + " transacitonLenght " + this.that.transaction.getTransactionsLength());
+          
             this.that.transaction.deleteTransaction(transactionItem);
             this.that.shouldUpdateStateBool = true;
             this.that.setState({transaction:this.that.transaction});

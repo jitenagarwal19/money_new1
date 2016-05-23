@@ -77,7 +77,7 @@ var List= React.createClass({
     return StringConstants.CATEGORIES;
   },
   changeViewButton:function(){
-    return <TouchableHighlight style = {styles.changeViewButton} onPress = {()=>{this.setState({isCategoryView:!this.state.isCategoryView})}} underlayColor = {"white"}>
+    return <TouchableHighlight style = {styles.changeViewButton} onPress = {()=>{this.setState({isCategoryView:!this.state.isCategoryView})}} underlayColor = {"orchid"}>
       <Text style = {styles.changeViewText}>
         {this.getButtonText()}
       </Text>
@@ -104,9 +104,6 @@ var List= React.createClass({
   monthTransactionList:function()
   {
 
-    console.log("reached here monthTransactionList " + Object.keys(this.props));
-
-
     if (this.state.transaction) {
       var monthTransactionItem = this.state.transaction.getMonthExpenseList(this.state.month, this.state.year);
       var that = this;
@@ -127,27 +124,29 @@ var List= React.createClass({
       justifyContent:"space-between",
       alignItems:"center",
       flexDirection:"row",
+      backgroundColor:"#3F51B5"
 
     },
     monthText:{
       fontSize:20,
       fontWeight:"bold",
-
+      color:"white"
     },
     totalView:{
       height:30,
-      alignItems:"flex-end"
+      alignItems:"flex-end",
+      backgroundColor:"lightpink"
     },
     totalText:{
       fontSize:20,
       fontWeight:"bold",
-
+      color:"red",
     },
     scrollView:{
 
     },
     changeViewButton:{
-      backgroundColor:"#3F51B5",
+      backgroundColor:"hotpink",
       marginRight:5,
       padding:5,
       borderRadius:5,
