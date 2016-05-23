@@ -38,15 +38,15 @@ var List= React.createClass({
   },
   render:function()
   {
-    return <View style = {[styles.container,{ marginTop:this.props.marginTop}]}>
-      <View style = {[styles.monthView, CommonMethods.getBorder(1, "blue")]}>
+    return <View style = {[styles.container,{ marginTop:this.props.marginTop}] }>
+      <View style = {[styles.monthView,]}>
         <Text style={styles.monthText}>
           {CommonMethods.getMonth(this.state.month)} {this.state.year}
         </Text>
         {this.changeViewButton()}
       </View>
       {this.renderScrollView()}
-      <View style = {[styles.totalView, CommonMethods.getBorder(1, "red")]}>
+      <View style = {[styles.totalView, ]}>
         <Text style={styles.totalText}>
           {this.getTotal()}
         </Text>
@@ -57,7 +57,7 @@ var List= React.createClass({
   },
 
   renderScrollView:function() {
-    return <ScrollView style = {[styles.scrollView, CommonMethods.getBorder(2, "yellow")]}>
+    return <ScrollView style = {[styles.scrollView, ]}>
 
       {this.decideWhichView()}
 
@@ -77,7 +77,7 @@ var List= React.createClass({
     return StringConstants.CATEGORIES;
   },
   changeViewButton:function(){
-    return <TouchableHighlight style = {styles.changeViewButton} onPress = {()=>{this.setState({isCategoryView:!this.state.isCategoryView})}}>
+    return <TouchableHighlight style = {styles.changeViewButton} onPress = {()=>{this.setState({isCategoryView:!this.state.isCategoryView})}} underlayColor = {"white"}>
       <Text style = {styles.changeViewText}>
         {this.getButtonText()}
       </Text>
@@ -108,11 +108,10 @@ var List= React.createClass({
 
 
     if (this.state.transaction) {
-
       var monthTransactionItem = this.state.transaction.getMonthExpenseList(this.state.month, this.state.year);
       var that = this;
       return monthTransactionItem.map(function(transactionItem, index) {
-        return <TransactionItemView key = {index} transactionItem = {transactionItem} deleteButtonPressed = {that.props.deleteButtonPressed} />
+        return <TransactionItemView key = {index} key1 = {index} transactionItem = {transactionItem} deleteButtonPressed = {that.props.deleteButtonPressed} />
       });}
     },
 
@@ -121,7 +120,7 @@ var List= React.createClass({
   var styles = StyleSheet.create({
     container:{
       flex:7,
-
+      backgroundColor:"beige"
     },
     monthView:{
       height:30,

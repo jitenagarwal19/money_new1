@@ -15,7 +15,7 @@ var styles = React.StyleSheet.create({
 
   },
   saveView: {
-    flex:6,
+    flex:3,
 
   },
   listViewStyle: {
@@ -23,14 +23,17 @@ var styles = React.StyleSheet.create({
   },
   textInput: {
     flex:1,
-    height:50,
+    height:40,
+
     margin:2,
     paddingRight: 3,
     textAlign:'center',
   },
   textInputView: {
     flex:2,
-    flexDirection:'row'
+    flexDirection:'row',
+    justifyContent:"center",
+    alignItems:'center'
   },
   saveButton: {
     flex:1,
@@ -57,8 +60,7 @@ var styles = React.StyleSheet.create({
     height:50,
   },
   extraButtonViewStyle: {
-    flex:1.5,
-
+    flex:1,
     flexDirection:"row",
   },
   extraButtonStyle: {
@@ -94,7 +96,7 @@ var styles = React.StyleSheet.create({
     marginTop:2,
   },
   title: {
-    marginTop:4,
+    marginTop:2,
     fontSize:16,
   }
 

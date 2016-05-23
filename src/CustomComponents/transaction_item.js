@@ -17,14 +17,10 @@ module.exports = React.createClass({
   render: function()
   {
 
-    console.log("reached here transactionItem " + Object.keys(this.props));
+    return <View style = {[styles.container, this.getBackgroundColorBasedOnKey(this.props.key1)]}>
 
-
-    return <View style = {styles.container}>
-      <View style={styles.leftView}>
-
+      <View style={[styles.leftView, ] }>
         <TypeOfTransactionIcon typeOfTransaction = {StringConstants.getTypeFromName(this.props.transactionItem.type)} style = {{height:55, width:55}}/>
-
         <View style={styles.textOnLeft}>
 
           <Text style={styles.nameText}>
@@ -41,7 +37,6 @@ module.exports = React.createClass({
           </View>
         </View>
         <View style={styles.rightView}>
-
           <Text style={styles.amountText} numberOfLines = {1}>
             {CommonMethods.getCurrencySymbol()} {this.props.transactionItem.value}
           </Text>
@@ -51,9 +46,23 @@ module.exports = React.createClass({
       </View>
 
   },
+
+  getBackgroundColorBasedOnKey:function(key) {
+    var backColor;
+    console.log("key for bgg " + key);
+
+    if (key % 2) {
+      backColor = "floralwhite"
+    } else {
+      backColor = "gainsboro"
+    }
+    return {
+      backgroundColor:backColor,
+    };
+  },
   shouldShowDelete:function() {
     if (this.props.deleteButtonPressed) {
-      return (<TouchableHighlight onPress={() => this.props.deleteButtonPressed.deleteThisTransaction(this.props.transactionItem)}>
+      return (<TouchableHighlight onPress={() => this.props.deleteButtonPressed.deleteThisTransaction(this.props.transactionItem)} underlayColor = {"white"}>
       <Image
         style={styles.deleteButton}
         source={closeImage}
@@ -67,16 +76,18 @@ module.exports = React.createClass({
 var styles = StyleSheet.create({
   container:{
     flex:1,
-    borderWidth:1,
+
     flexDirection:"row",
     alignItems:"stretch",
     height:55,
-    flexWrap:"nowrap"
+    flexWrap:"nowrap",
+  
+
   },
   leftView: {
     flexDirection:"row",
     flex:7,
-    borderWidth:1,
+
     alignItems:"flex-start",
   },
   rightView: {
@@ -84,8 +95,6 @@ var styles = StyleSheet.create({
     alignItems:"center",
     justifyContent:"space-between",
     flex:3,
-    borderWidth:1,
-    backgroundColor:"white",
     flexWrap:"nowrap",
   },
   textOnLeft: {
@@ -101,7 +110,7 @@ var styles = StyleSheet.create({
     fontSize:15,
     color:"red",
     marginRight:5,
-    borderWidth:1,
+
     flex:30,
     fontWeight:"400",
   },

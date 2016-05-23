@@ -46,7 +46,7 @@ module.exports = React.createClass({
   },
 
   getMonthTotalView(month, year, total) {
-    return (<TouchableHighlight style={[styles.monthRow, {backgroundColor:CommonMethods.yellowColor[month]}]} onPress= {()=>{this.showMonthView(month, year)}}>
+    return (<TouchableHighlight style={[styles.monthRow, {backgroundColor:CommonMethods.yellowColor[month]}]} onPress= {()=>{this.showMonthView(month, year)}} underlayColor={"white"} key = {month}>
       <View style={styles.monthRowView}>
         <Text style={styles.monthName}>
           {CommonMethods.getMonth(month)}

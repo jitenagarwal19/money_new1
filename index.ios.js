@@ -93,7 +93,7 @@ var MoneyNavigator = React.createClass({
           return "Month View"
         }
         else {
-          return "Paisa Paisa";
+          return "Expense Management";
         }
       }
     }
@@ -138,7 +138,7 @@ var MoneyNavigator = React.createClass({
         },
 
         render:function() {
-
+          this.shouldUpdateStateBool = false;
           return <View style = {styles.container}>
             {this.renderSaveView()}
             {this.renderExtraButtons()}
@@ -148,17 +148,18 @@ var MoneyNavigator = React.createClass({
 
 
         renderSaveView:function() {
-          return <View style = {[styles.saveView, this.border("yellow")]}>
-            <View style = {[styles.textInputView, this.border("brown")]}>
-              <TextInput style={[styles.textInput, this.border("black")]} placeholder="Expense Name" autoCapitalize = 'words' onChangeText={(text)=>{this.shouldUpdateStateBool = false; this.setState({expenseName:text.trim()})}} ref = {(component) => {this._expenseNameTextInput = component}} maxLength={15}/>
-              <TextInput style = {[styles.textInput, this.border("black")]} placeholder="Value" onChangeText={(text)=>{this.shouldUpdateStateBool = false; this.setState({value:text.trim()})}} keyboardType="decimal-pad" ref = {(component) => {this._valueTextInput = component}}/>
+          return <View style = {[styles.saveView,]}>
+            <View style = {[styles.textInputView, ]}>
+              <TextInput style={[styles.textInput, this.border("burlywood")]} placeholder="Expense Name" autoCapitalize = 'words' onChangeText={(text)=>{this.shouldUpdateStateBool = false; this.setState({expenseName:text.trim()})}} ref = {(component) => {this._expenseNameTextInput = component}} maxLength={15}/>
+              <TextInput style = {[styles.textInput, this.border("burlywood")]} placeholder="Value" onChangeText={(text)=>{this.shouldUpdateStateBool = false; this.setState({value:text.trim()})}} keyboardType="decimal-pad" ref = {(component) => {this._valueTextInput = component}}/>
             </View>
-            <TextInput style = {[styles.textInput, this.border("black")]} placeholder= "Note" onChangeText ={(text)=>{this.shouldUpdateStateBool = false; this.setState({note:text.trim()})}} ref = {(component) => this._noteInputText = component} maxLength={30} />
+            <TextInput style = {[styles.textInput, this.border("burlywood")]} placeholder= "Note" onChangeText ={(text)=>{this.shouldUpdateStateBool = false; this.setState({note:text.trim()})}} ref = {(component) => this._noteInputText = component} maxLength={30} />
             {this.renderSaveButtons()}
           </View>;
         },
         renderSaveButtons:function() {
-          return <View style = {[styles.textInputView, this.border("blue")]} >
+
+          return <View style = {[styles.textInputView, ]} >
             {this.renderTouchableHighlight(StringConstants.typesOfTransaction.foodType)}
             {this.renderTouchableHighlight(StringConstants.typesOfTransaction.travelType)}
             {this.renderTouchableHighlight(StringConstants.typesOfTransaction.shoppingType)}
@@ -167,7 +168,7 @@ var MoneyNavigator = React.createClass({
           </View>;
         },
         renderTouchableHighlight:function(typeOfTransaction) {
-          return <TouchableHighlight style = {[styles.saveButton,]} onPress={()=>this.handleSavePress(typeOfTransaction)}>
+          return <TouchableHighlight style = {[styles.saveButton,]} onPress={()=>this.handleSavePress(typeOfTransaction)} underlayColor = {"white"}>
             <TypeOfTransactionIcon typeOfTransaction = {typeOfTransaction} style = {{height:55, width:55, borderRadius:15}}/>
           </TouchableHighlight>
         },
@@ -175,13 +176,13 @@ var MoneyNavigator = React.createClass({
 
           this.DeleteUtility.setThat(this);
           var currDate = new Date();
-          return <MonthExpenseListView style = {styles.listViewStyle} transaction = {this.transaction} month = {currDate.getMonth()} year = {currDate.getFullYear()} deleteButtonPressed ={this.DeleteUtility} topMargin/>
+          return <MonthExpenseListView style = {styles.listViewStyle} transaction = {this.transaction} month = {currDate.getMonth()} year = {currDate.getFullYear()} deleteButtonPressed ={this.DeleteUtility} />
 
         },
         renderExtraButtons:function() {
-          return <View style = {[styles.extraButtonViewStyle, this.border("green")]}>
+          return <View style = {[styles.extraButtonViewStyle, ]} >
 
-            <TouchableHighlight style = {[styles.extraButtonStyle, this.border("orange")]} onPress={this.showYearView}>
+            <TouchableHighlight style = {[styles.extraButtonStyle, this.border("orange")]} onPress={this.showYearView} underlayColor = {"white"}>
               <View style={styles.extraButtonViewView}>
                 <Image
                   resizeMode="cover"
@@ -211,6 +212,7 @@ var MoneyNavigator = React.createClass({
             console.log("Error while clearing text");
           }
         },
+        //this utility is being passed to the month_list_view and then eventually to the individual transaction_item view
         DeleteUtility:{
           that:"",
           setThat(money1) {
@@ -219,6 +221,7 @@ var MoneyNavigator = React.createClass({
           deleteThisTransaction:function(transactionItem) {
             console.log("printing from the good function " + transactionItem.name + " transacitonLenght " + this.that.transaction.getTransactionsLength());
             this.that.transaction.deleteTransaction(transactionItem);
+            this.that.shouldUpdateStateBool = true;
             this.that.setState({transaction:this.that.transaction});
             AsyncStorage.setItem(StringConstants.TRANSACTION_ARRAY, JSON.stringify(this.that.transaction.getTransactionArray()));
           },
