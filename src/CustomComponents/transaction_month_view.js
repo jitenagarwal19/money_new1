@@ -22,7 +22,10 @@ var List= React.createClass({
     this.setState({
       transaction:this.props.transaction,
       month:this.props.month,
-      year:this.props.year
+      year:this.props.year,
+      transactionType:this.props.transactionType,
+      transactionTypeTotal:this.props.transactionTypeTotal,
+
     })
   },
   componentWillReceiveProps: function(nextProps) {
@@ -41,12 +44,14 @@ var List= React.createClass({
     return <View style = {[styles.container,{ marginTop:this.props.marginTop}] }>
       <View style = {[styles.monthView,]}>
         <Text style={styles.monthText}>
-          {CommonMethods.getMonth(this.state.month)} {this.state.year}
+          Expenses of {this.state.transactionType} for {CommonMethods.getMonth(this.state.month)} {this.state.year}
         </Text>
-        {this.changeViewButton()}
+
       </View>
-      {this.renderScrollView()}
-      <View style = {[styles.totalView, ]}>
+      <ScrollView style = {[styles.scrollView, ]}>
+        {this.monthTransactionList()}
+      </ScrollView>
+      <View style = {[styles.totalView,]}>
         <Text style={styles.totalText}>
           {this.getTotal()}
         </Text>
@@ -56,63 +61,18 @@ var List= React.createClass({
     </View>;
   },
 
-  renderScrollView:function() {
-    return <ScrollView style = {[styles.scrollView, ]}>
 
-      {this.decideWhichView()}
-
-    </ScrollView>;
-  },
-  decideWhichView :function() {
-    if (this.state.isCategoryView)
-      return this.monthCategoryList();
-    else
-      return this.monthTransactionList();
-  },
-  getButtonText:function()
-  {
-    if (this.state.isCategoryView)
-    return StringConstants.TRANSACTIONS;
-    else
-    return StringConstants.CATEGORIES;
-  },
-  changeViewButton:function(){
-    return <TouchableHighlight style = {styles.changeViewButton} onPress = {()=>{this.setState({isCategoryView:!this.state.isCategoryView})}} underlayColor = {"orchid"}>
-      <Text style = {styles.changeViewText}>
-        {this.getButtonText()}
-      </Text>
-    </TouchableHighlight>
-  },
   getTotal:function()
   {
-    var value;
-    if (this.state.transaction) {
-      var currDate = new Date();
-      value = this.state.transaction.getTotalForMonth(currDate.getMonth(), currDate.getFullYear());
-      value = "Total " + CommonMethods.getCurrencySymbol()+ " " + value;
-    }
+    var value = 0;
+
+    if (this.props.total)
+      value = this.props.total;
+    value = "Total " + CommonMethods.getCurrencySymbol()+ " " + value;
+
     return value;
   },
-  monthCategoryList :function() {
-    var result = this.state.transaction.getTransactionTypeTotal(this.state.month, this.state.year);
-    var that = this;
-    if (result) {
-      return StringConstants.nameTypeOfTransaction.map(function(transactionType, index) {
-        return that.getTransactionTypeTotalWithTouchable(index, transactionType, result[transactionType]);
 
-      })
-    }
-  },
-  ///i will use this method to show the transaction total along with onCLick functionality to lead the user to separate list which will show transaction type and month wise
-  getTransactionTypeTotalWithTouchable:function(index, transactionType, transactionTypeTotal) {
-    var that = this;
-    return <TouchableHighlight key = {index} onPress = {() => {that.showTransactionTypeView(transactionType, transactionTypeTotal)}} underlayColor = {"gainsboro"}>
-      <View >
-      <TransactionTypeTotalItem  transactionType = {transactionType} totalOfType = {transactionTypeTotal} />
-      </View>
-    </TouchableHighlight>
-
-  },
   showTransactionTypeView:function(transactionType, transactionTypeTotal) {
     this.props.navigator.push({
       name:StringConstants.NAVIGATOR.TRANSACTIONVIEW,
@@ -122,7 +82,6 @@ var List= React.createClass({
         month:this.state.month,
         year:this.state.year,
         total:transactionTypeTotal,
-          marginTop:60,
       }
     })
   },
@@ -130,7 +89,7 @@ var List= React.createClass({
   {
 
     if (this.state.transaction) {
-      var monthTransactionItem = this.state.transaction.getMonthExpenseList(this.state.month, this.state.year);
+      var monthTransactionItem = this.state.transaction.getTransactionMonthExpenseList(this.state.transactionType, this.state.month, this.state.year);
       var that = this;
       return monthTransactionItem.map(function(transactionItem, index) {
         return <TransactionItemView key = {index} key1 = {index} transactionItem = {transactionItem} deleteButtonPressed = {that.props.deleteButtonPressed} />
@@ -186,4 +145,4 @@ var List= React.createClass({
     }
 
   })
-module.exports = List;
+  module.exports = List;

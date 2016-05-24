@@ -19,6 +19,9 @@ Transaction.prototype.getDateForIndex = function(index) {
 Transaction.prototype.getNameForIndex = function(index) {
   return this.transactionArray[index].name;
 }
+Transaction.prototype.getTransactionTypeForIndex = function(index) {
+  return this.transactionArray[index].type;
+}
 Transaction.prototype.deleteTransaction = function(transaction) {
   var length = this.getTransactionsLength();
   for (i = 0; i < length; i++) {
@@ -132,6 +135,21 @@ Transaction.prototype.getMonthWiseTotal = function()
       resultArray[tempDate.getMonth()] = resultArray[tempDate.getMonth()] || {};
       resultArray[tempDate.getMonth()].total = resultArray[tempDate.getMonth()].total || 0;
       resultArray[tempDate.getMonth()].total += this.getValueForIndex(i);
+    }
+  }
+  return resultArray;
+}
+Transaction.prototype.getTransactionMonthExpenseList = function(transactionType, month, year)
+{
+  var resultArray = [];
+  var len = this.getTransactionsLength();
+
+  for (var i = 0; i < len; i++) {
+    var currDate = new Date(this.getDateForIndex(i));
+
+    if (currDate.getFullYear() == year && currDate.getMonth() == month && this.getTransactionTypeForIndex(i) === transactionType) {
+      var tempVar = this.getTransactionArray()[i];
+      resultArray.push(tempVar);
     }
   }
   return resultArray;

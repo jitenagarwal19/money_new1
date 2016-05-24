@@ -26,15 +26,18 @@ var TypesOfTransaction = StringConstants.typesOfTransaction;
 var TypeOfTransactionIcon = require("./src/CustomComponents/transaction_type_icon");
 var CommonMethods = require("./src/common_methods");
 var SettingScreen = require("./src/year_view_screen");
+var TransactionMonthView = require("./src/CustomComponents/transaction_month_view");
 
 var MoneyNavigator = React.createClass({
   renderScene(route, navigator) {
-    if (route.name === "start") {
+    if (route.name === StringConstants.NAVIGATOR.START) {
       return <Money navigator = {navigator} {...route.passProps}/ >
-      } else if (route.name === "yearview") {
+      } else if (route.name === StringConstants.NAVIGATOR.YEARVIEW) {
         return <SettingScreen navigator = {navigator} {...route.passProps} />
-      } else if (route.name == "monthview") {
+      } else if (route.name ===  StringConstants.NAVIGATOR.MONTHVIEW) {
         return <MonthExpenseListView navigator = {navigator} {...route.passProps}/>
+      } else if (route.name === StringConstants.NAVIGATOR.TRANSACTIONVIEW) {
+        return <TransactionMonthView navigator = {navigator} {...route.passProps}/>
       }
 
 
@@ -87,10 +90,12 @@ var MoneyNavigator = React.createClass({
         return <Text style = { styles.title }> {this.getTitleString(route.name)} </Text>
       },
       getTitleString(name) {
-        if (name === "yearview") {
+        if (name === StringConstants.NAVIGATOR.YEARVIEW) {
           return "Year View " + (new Date()).getFullYear();
-        } else if (name === "monthview") {
+        } else if (name === StringConstants.NAVIGATOR.MONTHVIEW) {
           return "Month View"
+        } else if (name === StringConstants.NAVIGATOR.TRANSACTIONVIEW) {
+          return "Transaction View";
         }
         else {
           return "Expense Management";
@@ -176,7 +181,7 @@ var MoneyNavigator = React.createClass({
 
           this.DeleteUtility.setThat(this);
           var currDate = new Date();
-          return <MonthExpenseListView style = {styles.listViewStyle} transaction = {this.transaction} month = {currDate.getMonth()} year = {currDate.getFullYear()} deleteButtonPressed ={this.DeleteUtility} />
+          return <MonthExpenseListView style = {styles.listViewStyle} transaction = {this.transaction} month = {currDate.getMonth()} year = {currDate.getFullYear()} deleteButtonPressed ={this.DeleteUtility} navigator = {this.props.navigator}/>
 
         },
         renderExtraButtons:function() {
@@ -219,7 +224,7 @@ var MoneyNavigator = React.createClass({
             this.that = money1;
           },
           deleteThisTransaction:function(transactionItem) {
-          
+
             this.that.transaction.deleteTransaction(transactionItem);
             this.that.shouldUpdateStateBool = true;
             this.that.setState({transaction:this.that.transaction});
@@ -270,7 +275,7 @@ var MoneyNavigator = React.createClass({
 
         showYearView:function() {
           this.props.navigator.push({
-            name:'yearview',
+            name:StringConstants.NAVIGATOR.YEARVIEW,
             passProps:{
               transaction:this.transaction,
             }

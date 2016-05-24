@@ -17,6 +17,12 @@ var StringConstants = {
   TRANSACTIONS:"TRANSACTIONS",
   SETTINGBUTTON:"Settings",
   YEARVIEW:"Year At View",
+  NAVIGATOR:{
+    YEARVIEW:"yearview",
+    START:"start",
+    MONTHVIEW:"monthview",
+    TRANSACTIONVIEW:"transactionview",
+  },
   nameTypeOfTransaction:["Food", "Travel", "Shopping", "Home", "Other"],
     settingImage:settingsImage,
   calenderImage:calenderImage,
